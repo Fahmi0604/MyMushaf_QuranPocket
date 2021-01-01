@@ -12,6 +12,12 @@ public class Surah {
     @SerializedName("number_of_ayah")
     private int number_of_ayah;
 
+    @SerializedName("number_of_surah")
+    private int number_of_surah;
+
+    @SerializedName("recitations")
+    private List<Surah_recitations> surah_recitations;
+
     @SerializedName("name_translations")
     private Surah_nameTranslation surah_nameTranslation;
 
@@ -38,6 +44,14 @@ public class Surah {
 
     public void setNumber_of_ayah(int number_of_ayah) {
         this.number_of_ayah = number_of_ayah;
+    }
+
+    public int getNumber_of_surah() {
+        return number_of_surah;
+    }
+
+    public void setNumber_of_surah(int number_of_surah) {
+        this.number_of_surah = number_of_surah;
     }
 
     public Surah_nameTranslation getSurah_nameTranslation() {
@@ -70,5 +84,13 @@ public class Surah {
 
     public void setSurah_verses(List<Surah_Verses> surah_verses) {
         this.surah_verses = surah_verses;
+    }
+
+    public List<Surah_recitations> getSurah_recitations() {
+        return surah_recitations;
+    }
+
+    public void setSurah_recitations(List<Surah_recitations> surah_recitations) {
+        this.surah_recitations = surah_recitations;
     }
 }

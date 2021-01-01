@@ -18,7 +18,6 @@ import java.util.List;
 
 public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.SurahAdapterViewHolder> {
 
-    FragmentQuranBinding fragmentQuranBinding;
     private Context context;
     private Surah surahList;
 
