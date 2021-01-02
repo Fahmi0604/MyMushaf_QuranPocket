@@ -1,4 +1,4 @@
-package com.example.mymushaf;
+package com.example.mymushaf.surah;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -6,42 +6,32 @@ import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.mymushaf.adapter.SurahAdapter;
-import com.example.mymushaf.databinding.FragmentQuranBinding;
-import com.example.mymushaf.models.Surah;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.mymushaf.R;
+import com.example.mymushaf.surah.adapter.SurahAdapter;
+import com.example.mymushaf.databinding.FragmentSurahBinding;
+import com.example.mymushaf.surah.models.Surah;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Url;
 
-public class QuranFragment extends Fragment {
+public class SurahFragment extends Fragment {
 
-    private FragmentQuranBinding binding;
+    private FragmentSurahBinding binding;
     private Surah surahList;
     private SurahAdapter surahAdapter;
     private MediaPlayer mediaPlayer;
     private String url="";
 
-    public QuranFragment() {
+    public SurahFragment() {
         // Required empty public constructor
     }
 
@@ -54,7 +44,7 @@ public class QuranFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_quran, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_surah, container, false);
         View view = binding.getRoot();
 
         getSurahAPI();

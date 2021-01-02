@@ -10,8 +10,13 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
+        android:id="@+id/surahFragment"
+        android:name="com.example.mymushaf.surah.SurahFragment"
+        android:label="fragment_quran"
+        tools:layout="@layout/fragment_surah" />
+    <fragment
         android:id="@+id/quranFragment"
-        android:name="com.example.mymushaf.QuranFragment"
+        android:name="com.example.mymushaf.quran.QuranFragment"
         android:label="fragment_quran"
         tools:layout="@layout/fragment_quran" />
 </navigation>

@@ -1,8 +1,6 @@
-package com.example.mymushaf;
+package com.example.mymushaf.surah;
 
-import com.example.mymushaf.models.Surah;
-
-import java.util.List;
+import com.example.mymushaf.surah.models.Surah;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

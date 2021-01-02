@@ -1,4 +1,4 @@
-package com.example.mymushaf.adapter;
+package com.example.mymushaf.surah.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,11 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymushaf.R;
-import com.example.mymushaf.databinding.FragmentQuranBinding;
-import com.example.mymushaf.models.Surah;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
-
-import java.util.List;
+import com.example.mymushaf.surah.models.Surah;
 
 public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.SurahAdapterViewHolder> {
 
@@ -29,7 +25,7 @@ public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.SurahAdapter
     @NonNull
     @Override
     public SurahAdapter.SurahAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_list_surah, parent, false);
         SurahAdapterViewHolder holder = new SurahAdapterViewHolder(view);
         return holder;
     }
