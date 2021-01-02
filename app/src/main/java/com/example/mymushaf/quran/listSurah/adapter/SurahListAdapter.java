@@ -1,16 +1,22 @@
 package com.example.mymushaf.quran.listSurah.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymushaf.R;
 import com.example.mymushaf.quran.listSurah.models.SurahList;
+import com.example.mymushaf.surah.SurahFragment;
 
 import java.util.List;
 
@@ -39,6 +45,15 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.Sura
         holder.name.setText(surahLists.get(position).getName());
         holder.place.setText(surahLists.get(position).getName());
         holder.name_translations.setText(surahLists.get(position).getNameTranslations().getArab());
+
+        holder.layout_listSurah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("position", String.valueOf(surahLists.get(position).getNumber_of_surah()));
+                Navigation.findNavController(v).navigate(R.id.action_quranFragment_to_surahFragment, bundle);
+            }
+        });
     }
 
     @Override
@@ -49,7 +64,7 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.Sura
     public class SurahListAdapterViewHolder extends RecyclerView.ViewHolder {
 
         private TextView number_of_ayah, number_of_surah, name, place, name_translations;
-
+        private ConstraintLayout layout_listSurah;
         public SurahListAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             number_of_ayah = itemView.findViewById(R.id.number_of_ayah);
@@ -57,6 +72,7 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.Sura
             name = itemView.findViewById(R.id.name);
             place = itemView.findViewById(R.id.place);
             name_translations = itemView.findViewById(R.id.name_translations);
+            layout_listSurah = itemView.findViewById(R.id.layout_listSurah);
         }
     }
 }

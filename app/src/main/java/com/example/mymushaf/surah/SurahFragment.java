@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.mymushaf.R;
+import com.example.mymushaf.databinding.FragmentQuranBinding;
+import com.example.mymushaf.quran.QuranFragment;
 import com.example.mymushaf.surah.adapter.SurahAdapter;
 import com.example.mymushaf.databinding.FragmentSurahBinding;
 import com.example.mymushaf.surah.models.Surah;
@@ -30,7 +34,7 @@ public class SurahFragment extends Fragment {
     private SurahAdapter surahAdapter;
     private MediaPlayer mediaPlayer;
     private String url="";
-
+    private int position;
     public SurahFragment() {
         // Required empty public constructor
     }
@@ -38,6 +42,7 @@ public class SurahFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        position = Integer.valueOf(getArguments().getString("position"));
 
     }
 
@@ -49,6 +54,12 @@ public class SurahFragment extends Fragment {
 
         getSurahAPI();
 
+        binding.buttonBack1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigateUp();
+            }
+        });
 
         return view;
     }
@@ -111,7 +122,7 @@ public class SurahFragment extends Fragment {
 
         SurahPlaceHolderApi surahPlaceHolderApi = retrofit.create(SurahPlaceHolderApi.class);
 
-        Call<Surah> call = surahPlaceHolderApi.getSurah("https://raw.githubusercontent.com/penggguna/QuranJSON/master/surah/1.json");
+        Call<Surah> call = surahPlaceHolderApi.getSurah("https://raw.githubusercontent.com/penggguna/QuranJSON/master/surah/"+position+".json");
 
         call.enqueue(new Callback<Surah>() {
             @Override

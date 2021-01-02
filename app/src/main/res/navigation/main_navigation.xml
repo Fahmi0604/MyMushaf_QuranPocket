@@ -18,5 +18,9 @@
         android:id="@+id/quranFragment"
         android:name="com.example.mymushaf.quran.QuranFragment"
         android:label="fragment_quran"
-        tools:layout="@layout/fragment_quran" />
+        tools:layout="@layout/fragment_quran" >
+        <action
+            android:id="@+id/action_quranFragment_to_surahFragment"
+            app:destination="@id/surahFragment" />
+    </fragment>
 </navigation>
