@@ -10,13 +10,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mymushaf.MainActivity;
 import com.example.mymushaf.R;
 import com.example.mymushaf.quran.listSurah.models.SurahList;
 import com.example.mymushaf.surah.SurahFragment;
+import com.example.mymushaf.surah.models.Surah;
 
 import java.util.List;
 
@@ -49,6 +53,14 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.Sura
         holder.layout_listSurah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//                SurahFragment surahFragment = new SurahFragment();
+//                Bundle arguments = new Bundle();
+//                arguments.putString("position", String.valueOf(surahLists.get(position).getNumber_of_surah()));
+//                surahFragment.setArguments(arguments);
+//                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.fragment_container, surahFragment, null).addToBackStack(null).commit();
+
                 Bundle bundle = new Bundle();
                 bundle.putString("position", String.valueOf(surahLists.get(position).getNumber_of_surah()));
                 Navigation.findNavController(v).navigate(R.id.action_quranFragment_to_surahFragment, bundle);

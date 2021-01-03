@@ -3,17 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/quranFragment">
+    app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.mymushaf.HomeFragment"
+        android:name="com.example.mymushaf.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_quranFragment2"
+            app:destination="@id/quranFragment" />
+    </fragment>
     <fragment
         android:id="@+id/surahFragment"
         android:name="com.example.mymushaf.surah.SurahFragment"
         android:label="fragment_quran"
-        tools:layout="@layout/fragment_surah" />
+        tools:layout="@layout/fragment_surah" >
+        <action
+            android:id="@+id/action_surahFragment_to_quranFragment"
+            app:destination="@id/quranFragment" />
+    </fragment>
     <fragment
         android:id="@+id/quranFragment"
         android:name="com.example.mymushaf.quran.QuranFragment"
@@ -21,6 +29,9 @@
         tools:layout="@layout/fragment_quran" >
         <action
             android:id="@+id/action_quranFragment_to_surahFragment"
-            app:destination="@id/surahFragment" />
+            app:destination="@id/surahFragment"
+            app:popUpTo="@layout/fragment_quran"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>

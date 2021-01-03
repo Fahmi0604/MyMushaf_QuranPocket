@@ -1,18 +1,23 @@
 package com.example.mymushaf.quran;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mymushaf.MainActivity;
 import com.example.mymushaf.R;
 import com.example.mymushaf.databinding.FragmentQuranBinding;
 import com.example.mymushaf.quran.listSurah.ListSurahFragment;
 import com.example.mymushaf.quran.listSurah.adapter.SurahListAdapter;
+import com.example.mymushaf.surah.SurahFragment;
 
 public class QuranFragment extends Fragment {
 
@@ -29,6 +34,7 @@ public class QuranFragment extends Fragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class QuranFragment extends Fragment {
         View view = binding.getRoot();
 
         setupViewPager();
+
 
         return view;
     }
@@ -47,6 +54,7 @@ public class QuranFragment extends Fragment {
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
+
 
 
 }

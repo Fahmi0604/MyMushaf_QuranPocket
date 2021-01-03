@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -35,6 +36,7 @@ public class SurahFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private String url="";
     private int position;
+
     public SurahFragment() {
         // Required empty public constructor
     }
@@ -42,8 +44,8 @@ public class SurahFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Bundle arguments = getArguments();
         position = Integer.valueOf(getArguments().getString("position"));
-
     }
 
     @Override
@@ -62,6 +64,17 @@ public class SurahFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.reset();
+            mediaPlayer.stop();
+        }
+
     }
 
     public void getAudio() {
