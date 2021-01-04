@@ -1,9 +1,14 @@
 package com.example.mymushaf.home;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -13,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.mymushaf.R;
 import com.example.mymushaf.databinding.FragmentHomeBinding;
+import com.example.mymushaf.home.alarm.AlertReceiver;
 import com.example.mymushaf.home.models.Sholat;
 
 import java.text.ParseException;
@@ -38,6 +44,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
@@ -49,14 +56,30 @@ public class HomeFragment extends Fragment {
 
         getSholatApi();
 
+        binding.gotoQuran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_quranFragment);
+            }
+        });
+
         return view;
+    }
+
+    public void setupAlarm(Date mili){
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent( getActivity(), AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, mili.getTime(), pendingIntent);
+
     }
 
     public void setupDataSholat(){
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        String time1 = simpleDateFormat.format(calendar.getTime());
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String time1 = simpleDateFormat1.format(calendar.getTime());
 
         Date timeNow=null;
         Date dzuhur=null;
@@ -66,12 +89,12 @@ public class HomeFragment extends Fragment {
         Date subuh=null;
 
         try {
-            timeNow = simpleDateFormat.parse(time1);
-            dzuhur = simpleDateFormat.parse(sholat.getSholatJadwal().getSholatJadwalData().getDzuhur());
-            ashar = simpleDateFormat.parse(sholat.getSholatJadwal().getSholatJadwalData().getAshar());
-            maghrib = simpleDateFormat.parse(sholat.getSholatJadwal().getSholatJadwalData().getMaghrib());
-            isya = simpleDateFormat.parse(sholat.getSholatJadwal().getSholatJadwalData().getIsya());
-            subuh = simpleDateFormat.parse(sholat.getSholatJadwal().getSholatJadwalData().getSubuh());
+            timeNow = simpleDateFormat1.parse(time1);
+            dzuhur = simpleDateFormat1.parse(sholat.getSholat_query().getTanggal()+" "+sholat.getSholatJadwal().getSholatJadwalData().getDzuhur());
+            ashar = simpleDateFormat1.parse(sholat.getSholat_query().getTanggal()+" "+sholat.getSholatJadwal().getSholatJadwalData().getAshar());
+            maghrib = simpleDateFormat1.parse(sholat.getSholat_query().getTanggal()+" "+sholat.getSholatJadwal().getSholatJadwalData().getMaghrib());
+            isya = simpleDateFormat1.parse(sholat.getSholat_query().getTanggal()+" "+sholat.getSholatJadwal().getSholatJadwalData().getIsya());
+            subuh = simpleDateFormat1.parse(sholat.getSholat_query().getTanggal()+" "+sholat.getSholatJadwal().getSholatJadwalData().getSubuh());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -80,31 +103,60 @@ public class HomeFragment extends Fragment {
         long minutes;
 
         if ((timeNow.before(isya) && timeNow.before(subuh)) || timeNow.after(isya)){
+
             binding.titleSholat.setText("Subuh");
-
             long timeDiff = subuh.getTime() - timeNow.getTime();
-            Toast.makeText(getActivity(), String.valueOf(timeDiff), Toast.LENGTH_SHORT).show();
+            startTime(timeDiff);
 
+            setupAlarm(subuh);
 
         } else if (timeNow.before(dzuhur) && timeNow.after(subuh)){
+
             binding.titleSholat.setText("Dzuhur");
+            long timeDiff = dzuhur.getTime() - timeNow.getTime();
+            startTime(timeDiff);
+
+            setupAlarm(dzuhur);
+
         } else if (timeNow.before(ashar) && timeNow.after(dzuhur)){
+
             binding.titleSholat.setText("Ashar");
+            long timeDiff = ashar.getTime() - timeNow.getTime();
+            startTime(timeDiff);
+
+            setupAlarm(ashar);
+
         } else if (timeNow.before(maghrib) && timeNow.after(ashar)){
+
             binding.titleSholat.setText("Maghrib");
+            long timeDiff = maghrib.getTime() - timeNow.getTime();
+            startTime(timeDiff);
+
+            setupAlarm(maghrib);
+
         } else if (timeNow.before(isya) && timeNow.after(maghrib)){
+
             binding.titleSholat.setText("Isya");
+            long timeDiff = isya.getTime() - timeNow.getTime();
+            startTime(timeDiff);
+
+            setupAlarm(isya);
+
         }
 
-        startTime();
     }
 
-    public void startTime(){
-        new CountDownTimer(20000 + 100, 1000){
+    public void startTime(long countMili){
+        new CountDownTimer(countMili, 1000){
 
             @Override
             public void onTick(long millisUntilFinished) {
-                binding.countdownSholat.setText(String.valueOf(millisUntilFinished/1000));
+
+                String myTime = String.format("%02d:%02d:%02d", millisUntilFinished / (3600*1000),
+                        millisUntilFinished/(60*1000) % 60,
+                        millisUntilFinished/1000 % 60);
+
+                binding.countdownSholat.setText(myTime);
             }
 
             @Override
@@ -117,6 +169,10 @@ public class HomeFragment extends Fragment {
 
     public void getSholatApi() {
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        String dateNow = simpleDateFormat1.format(calendar.getTime());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.banghasan.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -124,7 +180,7 @@ public class HomeFragment extends Fragment {
 
         SholatPlaceHolderApi sholatPlaceHolderApi = retrofit.create(SholatPlaceHolderApi.class);
 
-        Call<Sholat> call = sholatPlaceHolderApi.getSholat("https://api.banghasan.com/sholat/format/json/jadwal/kota/754/tanggal/2021-01-03");
+        Call<Sholat> call = sholatPlaceHolderApi.getSholat("https://api.banghasan.com/sholat/format/json/jadwal/kota/754/tanggal/"+dateNow);
 
         call.enqueue(new Callback<Sholat>() {
             @Override
@@ -134,7 +190,7 @@ public class HomeFragment extends Fragment {
                     sholat = response.body();
                     setupDataSholat();
                     binding.setSholat(sholat);
-                    Toast.makeText(getActivity(), sholat.getSholatJadwal().getSholatJadwalData().getIsya(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "ٱلسَّلَامُ عَلَيْكُمْ\u200E ", Toast.LENGTH_SHORT).show();
                 }
 
             }
