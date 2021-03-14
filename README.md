@@ -1,6 +1,6 @@
 ## MyMushaf_QuranPocket
 ### Al-Qur'an untuk android dengan fitur : 
-* waktu sholat
+* waktu sholat sesuai lokasi sekarang
 * audio surat-surat al-quran
 
 ![WhatsApp Image 2021-03-04 at 20 22 14-3](https://user-images.githubusercontent.com/55319854/109970588-d1ae7500-7d27-11eb-8ee7-a9122a6cec3a.jpeg)
